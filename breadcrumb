@@ -1,0 +1,27 @@
+/*-----------------------------------------------------------------------------------*/
+/*  Breadcrumbs with Google Frienldy Rich Snippet Tools
+/*-----------------------------------------------------------------------------------*/
+if (!function_exists('redwaves_breadcrumb')) {
+		function redwaves_breadcrumb() {
+			echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><i class="fa fa-home"></i> <a itemprop="item" href="';
+			echo home_url();
+			echo '"><span itemprop="name">'.sprintf( __( "Home","redwaves-lite"));
+			echo '</span></a></li>';
+			if (is_category() || is_single()) {
+				$categories = get_the_category();
+				$output = '';
+				if($categories){
+					echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><i class="fa fa-caret-right"></i> <a href="'.get_category_link( $categories[0]->term_id ).'" itemprop="item"><span itemprop="name">'.$categories[0]->cat_name.'</span></a></li>';
+				}
+				if (is_single()) {
+					echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><i class="fa fa-caret-right"></i>  <span itemprop="name">';
+					the_title();
+					echo "</span></li>";
+				}
+				} elseif (is_page()) {
+				echo '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><i class="fa fa-caret-right"></i> <span itemprop="name">';
+				the_title();
+				echo "</span></li>";
+			}
+		}
+}
